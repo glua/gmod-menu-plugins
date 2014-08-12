@@ -25,7 +25,7 @@ local nFenv = {}
 setmetatable(nFenv, {__index = illegalCheck}) --thx rejax
 
 
-for k, fil in pairs(file.Find("lua/menu_plugins/*.lua", "GAmE")) do
+for k, fil in pairs(file.Find("lua/menu_plugins/*.lua", "GAME")) do
 	if fil == "init.lua" then continue end
 
 	local path = "lua/menu_plugins/"..fil
