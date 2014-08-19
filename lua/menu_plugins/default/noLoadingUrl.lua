@@ -5,11 +5,6 @@ CreateClientConVar("menu_fuckLoadingUrl", "0", {FCVAR_ARCHIVE}, [[0 uses server 
 CreateConVar("menu_fuckLoadingSteamID", "0", {FCVAR_ARCHIVE}, [[0 your steamid
  	 - <string> whatever you wanna use]])
 
-function cookieSetter(name, old, new)
-	print(name, old, new)
-	menuCookie.Set(name, new)
-end
-
 local oldGD = GameDetails
 function GameDetails(name, url, mapname, maxply, steamid, gamemode)
 	local val = GetConVarString("menu_fuckLoadingUrl")
