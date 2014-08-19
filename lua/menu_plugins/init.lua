@@ -1,10 +1,10 @@
 MsgC(Color(255, 255, 255), "\nMenu Plugins: \n")
 MsgC(Color(0, 0, 255), "\tloading...\n")
 
-for k, fil in pairs(file.Find("lua/menu_plugins/modules*.lua", "GAME")) do
+for k, fil in pairs(file.Find("lua/menu_plugins/modules/*.lua", "GAME")) do
 	if fil == "init.lua" then continue end
 
-	include("menu_plugins/modules"..fil)
+	include("menu_plugins/modules/"..fil)
 end
 
 for k, fil in pairs(file.Find("lua/menu_plugins/*.lua", "GAME")) do
@@ -13,5 +13,5 @@ for k, fil in pairs(file.Find("lua/menu_plugins/*.lua", "GAME")) do
 	menup.include(fil)
 end
 
-MsgC(Color(0, 255, 00), "All menu plgins loaded!\n")
+MsgC(Color(0, 255, 00), "All menu plugins loaded!\n")
 MsgC("\n")
