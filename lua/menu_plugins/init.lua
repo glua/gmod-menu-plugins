@@ -4,11 +4,11 @@ MsgC(Color(0, 0, 255), "\tloading...\n")
 local menup = {}
 
 menup.include = function(path)
-	include("menu_plugins/"..path)
+	return include("menu_plugins/"..path)
 end
 
 menup.require = function(modul)
-	require("../../menu_plugins/modules/"..modul)
+	return require("../../menu_plugins/modules/"..modul)
 end
 
 for k, fil in pairs(file.Find("lua/menu_plugins/*.lua", "GAME")) do
