@@ -17,6 +17,8 @@ function PANEL:Init()
 
 	self.out = false
 	self:KillFocus()
+
+	self.plugins = {}
 end
 function PANEL:Moove(outin)
 	if outin == OUT and not self.out then
@@ -41,6 +43,14 @@ function PANEL:Think()
 	end
 end
 
+function PANEL:AddOption(plugin, option, type)
+	if not self.plugins[plugin] then
+		self.plugins[plugin] = {}
+		self.plugins[plugin].options = {}
+		self.plugins[plugin].node = self.tree:AddNode(plugin, "icon16/wrench.png")
+	end
+end
+
 derma.DefineControl("menupSidebar", "Sidebar for Menu Plugins", PANEL, "DFrame")
 
-timer.Simple(3, function() vgui.Create("menupSidebar"):MakePopup() end)
+--timer.Simple(3, function() menup.sidebar = vgui.Create("menupSidebar") menup.sidebar:MakePopup() menup.sidebar:AddOption("hii", "lol", "string") end)
