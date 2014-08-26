@@ -4,7 +4,7 @@ local OUT = true
 local IN = false
 
 function PANEL:Init()
-	self:SetSize(ScrW()*.175, ScrH() *.75)
+	self:SetSize(ScrW()*.175, ScrH()*.75)
 	self:Center()
 	self:SetPos(ScrW(), select(2, self:GetPos()))
 
