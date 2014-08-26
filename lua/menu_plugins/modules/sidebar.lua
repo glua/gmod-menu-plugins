@@ -6,7 +6,7 @@ local IN = false
 function PANEL:Init()
 	self:SetSize(ScrW()*.175, ScrH() *.75)
 	self:Center()
-	self:SetPos(ScrW() - self:GetWide(), select(2, self:GetPos()))
+	self:SetPos(ScrW(), select(2, self:GetPos()))
 
 	self:ShowCloseButton(false)
 	self:SetDraggable(false)
@@ -21,6 +21,7 @@ function PANEL:Init()
 	self.plugins = {}
 end
 function PANEL:Moove(outin)
+
 	if outin == OUT and not self.out then
 		self:MoveTo(ScrW(), select(2, self:GetPos()), .1, 0, 2)
 		self.out = true
@@ -34,7 +35,7 @@ function PANEL:Think()
 	self.posx, self.posy = self:GetPos()
 	self.sizex, self.sizey = self:GetSize()
 	local mx, my = gui.MouseX(), gui.MouseY()
-	self.hovered = mx > self.posx and (my > self.posy and my < (ScrH() - self.posy))
+	self.hovered = mx > self.posx-(self.out and self:GetWide()/10 or self:GetWide()/5) 
 
 	if self.hovered then
 		self:Moove(IN)
@@ -53,4 +54,8 @@ end
 
 derma.DefineControl("menupSidebar", "Sidebar for Menu Plugins", PANEL, "DFrame")
 
---timer.Simple(3, function() menup.sidebar = vgui.Create("menupSidebar") menup.sidebar:MakePopup() menup.sidebar:AddOption("hii", "lol", "string") end)
+timer.Simple(1, function() 
+	menup.sidebar = vgui.Create("menupSidebar") 
+	menup.sidebar:MakePopup() 
+	menup.sidebar:AddOption("hii", "lol", "string") 
+end)
