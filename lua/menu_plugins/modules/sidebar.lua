@@ -35,7 +35,7 @@ function PANEL:Think()
 	self.posx, self.posy = self:GetPos()
 	self.sizex, self.sizey = self:GetSize()
 	local mx, my = gui.MouseX(), gui.MouseY()
-	self.hovered = mx > self.posx-(self.out and 50 or 200) 
+	self.hovered = mx > self.posx-(self.out and self:GetWide()/10 or self:GetWide()/5) 
 
 	if self.hovered then
 		self:Moove(IN)
