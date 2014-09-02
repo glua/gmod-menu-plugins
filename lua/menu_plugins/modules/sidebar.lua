@@ -53,9 +53,3 @@ function PANEL:AddOption(plugin, option, type)
 end
 
 derma.DefineControl("menupSidebar", "Sidebar for Menu Plugins", PANEL, "DFrame")
-
-timer.Simple(1, function() 
-	menup.sidebar = vgui.Create("menupSidebar") 
-	menup.sidebar:MakePopup() 
-	menup.sidebar:AddOption("hii", "lol", "string") 
-end)
