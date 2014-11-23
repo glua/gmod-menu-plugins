@@ -60,7 +60,7 @@ function snowstorm.create(alreadyStarted)
 	end)
 end
 snowstorm.create(true)
-hook.Add("DrawOverlay", "snowsturm", function()
+--[[hook.Add("DrawOverlay", "snowsturm", function()
 	if not gui.IsGameUIVisible() then return end
 
 	surface.SetTexture(surface.GetTextureID("particle/snow"))
@@ -76,4 +76,4 @@ hook.Add("DrawOverlay", "snowsturm", function()
 
 		if flake.y > ScrH() then table.remove(snowstorm.flakes, k) end --remove flake
 	end
-end)
+end)]]
