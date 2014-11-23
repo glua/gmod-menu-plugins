@@ -9,7 +9,7 @@ local Egg = {}
 local CountDown = 1
 local Startime = CurTime()
 local LastEat = CurTime()
-local Speed = 2
+local Speed = 200
 local Toggle = true
 local buff = false
 
@@ -19,7 +19,7 @@ desc:
 -----------------------------------------------------------]]
 local function Restart()
 
-Speed = 2
+Speed = 200
 sx = ScrW()/2
 sy = ScrH()/2
 tile = {}
@@ -83,8 +83,8 @@ directionx,directiony = 0,0
 	if(Dir == 1 ) then directiony = -1 elseif(Dir == 2 ) then directiony = 1 elseif(Dir == 3 ) then directionx = 1 elseif(Dir == 4 ) then directionx = -1 end
 	
 	lx,ly = sx,sy
-	sx = sx + directionx * Speed
-	sy = sy + directiony * Speed
+	sx = sx + directionx * Speed * FrameTime()
+	sy = sy + directiony * Speed * FrameTime()
 
 	if( (sy <= 0) or ( sy >= ScrH()) or(sx <= 0) or ( sx >= ScrW() ) ) then
 	Restart()
