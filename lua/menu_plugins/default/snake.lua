@@ -19,7 +19,7 @@ desc:
 -----------------------------------------------------------]]
 local function Restart()
 
-Speed = 2
+Speed = 200
 sx = ScrW()/2
 sy = ScrH()/2
 tile = {}
