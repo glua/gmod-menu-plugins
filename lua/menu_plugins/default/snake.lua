@@ -1,134 +1,99 @@
-local sx = ScrW()/2
-local sy = ScrH()/2
-local lx = ScrW()/2
-local ly = ScrH()/2
-local directionx = 0
-local directiony = 0
-local tile = {}
-local Egg = {}
-local CountDown = 1
-local Startime = CurTime()
-local LastEat = CurTime()
-local Speed = 200
-local Toggle = true
-local buff = false
+menup.options.addOption("snake", "enabled", 1)
 
---[[---------------------------------------------------------
-NAME: Restart
-desc: 
------------------------------------------------------------]]
+local squarew = 15
+
+local snake = {headx = ScrW()/2, heady = ScrH()/2, dirx = 0, diry = 0, length = 0, tail = {}}
+local egg = {x = 0, y = 0}
+local speed = 200
+local score = 0
+
+local function MoveEgg()
+	egg.x = math.Round(math.random(20,ScrW()-20))
+	egg.y = math.Round(math.random(20,ScrH()-ScrH()*0.125))
+end
+MoveEgg()
+
 local function Restart()
-
-Speed = 200
-sx = ScrW()/2
-sy = ScrH()/2
-tile = {}
-
+	if score > 0 then print("You died! Final score: "..score.."!") end
+	speed = 200
+	score = 0
+	snake = {headx = ScrW()/2, heady = ScrH()/2, dirx = 0, diry = 0, length = 0, tail = {}}
+	MoveEgg()
 end
 
---[[---------------------------------------------------------
-NAME: Eat
-desc: 
------------------------------------------------------------]]
-local function Eat( x, y )
-	for i= 1,6 do
-		table.insert(tile,{x = x-5, y = y } )
-	end
-
+local function Eat()
+	snake.length = snake.length + squarew -- lol
+	MoveEgg()
+	speed = math.min(speed * 1.02, 600) -- 300 at ~20 eggs, 400 at ~35, 500 at 45-50, 600 at ~55; perhaps linear would be better?
+	score = score + math.Round(speed/150) -- 1 until 225, 2 until 375, 3 until 525, etc.
 end
 
---[[---------------------------------------------------------
-NAME: AddEgg
-desc: 
------------------------------------------------------------]]
-local function AddEgg( x, y )
-
-table.insert(Egg,{x = x, y = y})
-
-end
-
---[[---------------------------------------------------------
-NAME: DrawGame
-desc: 
------------------------------------------------------------]]
 local function DrawGame()
-// easy pause
-if( input.IsKeyDown( KEY_BACKSPACE ) ) then
-	if( !buff) then	
-		buff = true
-		// press
-		if( Toggle ) then
-			Toggle = false
-		else
-			Toggle = true
-		end					
-	end		
-else
-buff = false 
-end
+	if input.IsKeyDown(KEY_BACKSPACE) then return end -- pause or something
 
-if( !Toggle ) then return end
-
-directionx,directiony = 0,0
-	if(input.IsKeyDown(KEY_UP) ) then
-		Dir = 1
-	elseif(input.IsKeyDown(KEY_DOWN) ) then
-		Dir = 2
-	elseif(input.IsKeyDown(KEY_RIGHT) ) then
-		Dir = 3
-	elseif(input.IsKeyDown(KEY_LEFT) ) then
-		Dir = 4
+	-- Check movement changes
+	local up, down, left, right = input.IsKeyDown(KEY_UP), input.IsKeyDown(KEY_DOWN), input.IsKeyDown(KEY_LEFT), input.IsKeyDown(KEY_RIGHT)
+	if (up or down) and (snake.diry == 0) then
+		snake.diry = (up) and -1 or 1
+		snake.dirx = 0
+	elseif (left or right) and (snake.dirx == 0) then
+		snake.dirx = (left) and -1 or 1
+		snake.diry = 0
 	end
 
-	if(Dir == 1 ) then directiony = -1 elseif(Dir == 2 ) then directiony = 1 elseif(Dir == 3 ) then directionx = 1 elseif(Dir == 4 ) then directionx = -1 end
-	
-	lx,ly = sx,sy
-	sx = sx + directionx * Speed * FrameTime()
-	sy = sy + directiony * Speed * FrameTime()
-
-	if( (sy <= 0) or ( sy >= ScrH()) or(sx <= 0) or ( sx >= ScrW() ) ) then
-	Restart()
-	end
- 
-	if( #Egg > 0 ) then
-		if( sx +15 >= Egg[1].x  && sx <= Egg[1].x+15  && sy+15  >= Egg[1].y && sy <= Egg[1].y+15) then
-			Eat( lx, ly )
-			LastEat = CurTime()
-			table.Empty(Egg)
-		end
+	-- Update tail
+	table.insert(snake.tail, 1, {x = snake.headx, y = snake.heady})
+	if #snake.tail > snake.length then
+		table.remove(snake.tail, #snake.tail)
 	end
 
-	if( CurTime() >= LastEat + CountDown and #Egg < 1 ) then
-		AddEgg( math.Round(math.random(20,ScrW()-20)), math.Round(math.random(20,ScrH()-ScrH()*0.125)) )
+	-- Update snake pos
+	local changex = snake.dirx * speed * FrameTime()
+	local changey = snake.diry * speed * FrameTime()
+
+	snake.headx = snake.headx + changex
+	snake.heady = snake.heady + changey
+
+	-- Check if snake is outside the window
+	if (snake.headx <= 0) or (snake.heady <= 0) or (snake.heady + squarew >= ScrH()) or (snake.headx + squarew >= ScrW()) then
+		Restart()
 	end
 
-	for i=#tile,2,-1 do
-		tile[i] = tile[i-1]
-		if(sx == tile[i].x  && sy == tile[i].y ) then
-			Die()
-			break
-		end
-	end		
-		tile[1] = {x=lx,y=ly}
-
+	-- Check if snake is eating the egg
+	if (egg.x <= snake.headx + squarew) and (snake.headx <= egg.x + squarew) and (egg.y <= snake.heady + squarew) and (snake.heady <= egg.y + squarew) then
+		Eat()
+	end
 
 	local col = math.abs(math.sin(CurTime() * 2.5))
 
-	for k,v in ipairs(tile) do
-		surface.SetDrawColor(120 + (135 * col),50,150 * col,255)
-		surface.DrawRect(v.x ,v.y,15,15)
+	-- Draw egg
+	surface.SetDrawColor(120 + (135 * col), 50, 0, 255)
+	surface.DrawRect(egg.x, egg.y, squarew, squarew)
+
+	-- Draw tail
+	surface.SetDrawColor(120 + (135 * col),50,150 * col, 255)
+	for i = 1, #snake.tail do
+		local tile = snake.tail[i]
+		if not tile then break end
+		surface.DrawRect(tile.x, tile.y, squarew, squarew)
+		if (i > squarew*3) and (tile.x >= snake.headx) and (tile.x <= snake.headx + squarew) and (tile.y >= snake.heady) and (tile.y <= snake.heady + squarew) then -- trust me
+			Restart()
+		end
 	end
 
-	for k,v in ipairs(Egg) do
+	-- Draw snake
+	surface.SetDrawColor(50, 120 + (135 * col), 150 * col, 255)
+	surface.DrawRect(snake.headx, snake.heady, squarew, squarew)
 
-		surface.SetDrawColor(120 + (135 * col),50,0,255)
-		surface.DrawRect(v.x ,v.y,15,15)
-
-	end
-	
-	surface.SetDrawColor(50,120 + (135 * col),150 * col,255)
-	surface.DrawRect(sx,sy,15,15)
-
+	-- Draw score
+	surface.SetTextColor(color_white)
+	local text = "Snake score: "..score
+	surface.SetFont("DermaLarge")
+	local w, h = surface.GetTextSize(text)
+	surface.SetTextPos(ScrW() * 0.9 - w, ScrH() * 0.1)
+	surface.DrawText(text)
 end
 
-hook.Add("DrawOverlay","Draw_Game",DrawGame)
+if tonumber(menup.options.getOption("snake", "enabled")) == 1 then
+	hook.Add("DrawOverlay", "MenuP_Snake_Draw", DrawGame)
+end
