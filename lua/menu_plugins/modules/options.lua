@@ -20,7 +20,7 @@ end
 local function setOption(ply, cmd, args)
 	menup.options.setOption(args[1], args[2], args[3])
 end
-concommand.Add("menup_setOption", setOption)
+concommand.Add("menup_setOption", setOption, nil, "Set a menu state option; Format: <plugin> <option> <value>")
 
 local function spewOptions()
 	for plugin, tab in pairs(options) do
@@ -30,4 +30,8 @@ local function spewOptions()
 		end
 	end
 end
-concommand.Add("menup_spewOptions", spewOptions)
+concommand.Add("menup_spewOptions", spewOptions, nil, "Spew all menu state options")
+
+function menup.options.getTable()
+	return options
+end
