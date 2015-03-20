@@ -27,7 +27,7 @@ function snowstorm.makeFlake(x, y, size, speed)
 	flake.rotation = 0
 	local speed = math.random(snowstorm.flakeRotationSpeed - snowstorm.flakeRotationSpeedVariation, snowstorm.flakeRotationSpeed + snowstorm.flakeRotationSpeedVariation)
 	if math.random(0, 1) == 1 then
-		flake.rotationSpeed = snowstorm.flakeRotationSpeed 
+		flake.rotationSpeed = snowstorm.flakeRotationSpeed
 	else
 		flake.rotationSpeed = snowstorm.flakeRotationSpeed  * -1
 	end
@@ -59,21 +59,29 @@ function snowstorm.create(alreadyStarted)
 		end
 	end)
 end
-snowstorm.create(true)
---[[hook.Add("DrawOverlay", "snowsturm", function()
-	if not gui.IsGameUIVisible() then return end
 
-	surface.SetTexture(surface.GetTextureID("particle/snow"))
-	surface.SetDrawColor(color_white)
-	for k, flake in ipairs(snowstorm.flakes) do
-		surface.DrawTexturedRectRotated(flake.x - flake.sizeHalved / 2, flake.y - flake.sizeHalved / 2, flake.size, flake.size, flake.rotation)
+if not (tonumber(os.date("%m", os.time())) == 12) then return end -- Only continue if it's December
 
-		flake.y = flake.y + flake.speed * FrameTime()
-		
-		flake.rotation = flake.rotation + flake.rotationSpeed * FrameTime()
-		if flake.rotation > 360 then flake.rotation = -360 end
-		if flake.rotation < -360 then flake.rotation = 360 end
+menup.options.addOption("snowstorm", "enabled", 1)
 
-		if flake.y > ScrH() then table.remove(snowstorm.flakes, k) end --remove flake
-	end
-end)]]
+if tonumber(menup.options.getOption("snowstorm", "enabled")) == 1 then
+	snowstorm.create(true)
+
+	hook.Add("DrawOverlay", "MenuP_Snowstorm", function()
+		if not gui.IsGameUIVisible() then return end
+
+		surface.SetTexture(surface.GetTextureID("particle/snow"))
+		surface.SetDrawColor(color_white)
+		for k, flake in ipairs(snowstorm.flakes) do
+			surface.DrawTexturedRectRotated(flake.x - flake.sizeHalved / 2, flake.y - flake.sizeHalved / 2, flake.size, flake.size, flake.rotation)
+
+			flake.y = flake.y + flake.speed * FrameTime()
+
+			flake.rotation = flake.rotation + flake.rotationSpeed * FrameTime()
+			if flake.rotation > 360 then flake.rotation = -360 end
+			if flake.rotation < -360 then flake.rotation = 360 end
+
+			if flake.y > ScrH() then table.remove(snowstorm.flakes, k) end --remove flake
+		end
+	end)
+end
