@@ -36,7 +36,7 @@ for k, fil in pairs(file.Find("lua/menu_plugins/modules/*.lua", "GAME")) do
 
 	MsgC(Aquamarine, "Loading module ")
 	MsgC(Lime, fil)
-	MsgC(Aquamarine, "...\n")
+	MsgC(Aquamarine, " ...\n")
 	
 	include("menu_plugins/modules/"..fil)
 end
@@ -44,9 +44,9 @@ end
 for k, fil in pairs(file.Find("lua/menu_plugins/*.lua", "GAME")) do
 	if fil == "init.lua" then continue end
 
-	MsgC(Aquamarine, "Loading module '")
+	MsgC(Aquamarine, "Loading module ")
 	MsgC(Lime, fil)
-	MsgC(Aquamarine, "'...\n")
+	MsgC(Aquamarine, " ...\n")
 	
 	menup.include(fil)
 end
