@@ -9,3 +9,7 @@ Only install plugins that you trust!
 ## Installation 
 Simply drag and drop the lua folder into your garrysmod/garrysmod directory. 
 Accept to overwrite any files. (This is required for menu plugins to function)
+
+## For developers
+If you want to write your own menu plugins just look at the default plugins already included here. 
+Especially take a look at the extra functionalty and settings store provided. 
