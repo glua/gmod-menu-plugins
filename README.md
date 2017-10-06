@@ -1,4 +1,6 @@
-gmod-menu-plugins
+# Menu Plugins
 =================
 
-This will readd menu plugins to the game
+## Installation 
+Simply drag and drop the lua folder into your garrysmod/garrysmod directory. 
+Accept to overwrite any files. (This is required for menu plugins to function)
