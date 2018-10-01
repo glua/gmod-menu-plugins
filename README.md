@@ -4,7 +4,7 @@ Menu plugins were a feature of old garry's mod versions that allowed you to modi
 These were removed in later garry's mod version due to (presumably) security concerns. 
 
 This addon will readd these plugins to garry's mod - however use them at your own risk! 
-Only install plugins that you trust!
+Only install plugins that you trust! (menu plugins have a tremendous amount of access to your pc and are sandboxed way less than normal client scripts)
 
 ## Installation 
 Simply drag and drop the lua folder into your garrysmod/garrysmod directory. 
