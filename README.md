@@ -1,9 +1,9 @@
 # Menu Plugins
 
-Menu plugins were a feature of old garry's mod versions that allowed you to modify the main menu. 
-These were removed in later garry's mod version due to (presumably) security concerns. 
+Menu plugins were a feature of old Garry's Mod versions that allowed you to modify the main menu. 
+These were removed in later Garry's Mod version due to (presumably) security concerns. 
 
-This addon will readd these plugins to garry's mod - however use them at your own risk! 
+This addon will readd these plugins to Garry's Mod - however use them at your own risk! 
 Only install plugins that you trust! (menu plugins have a tremendous amount of access to your pc and are sandboxed way less than normal client scripts)
 
 ## Installation 
