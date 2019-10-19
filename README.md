@@ -15,4 +15,4 @@ Accept to overwrite any files. (This is required for menu plugins to function)
 
 ## For developers
 If you want to write your own menu plugins just look at the default plugins already included here. 
-Especially take a look at the extra functionalty and settings store provided. 
+Especially take a look at the extra functionality and settings store provided. 
