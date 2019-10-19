@@ -1,3 +1,6 @@
+STATUS: 
+*UNMAINTAINED* if you want to take over this historic gmod project, please open an issue. 
+
 # Menu Plugins
 
 Menu plugins were a feature of old Garry's Mod versions that allowed you to modify the main menu. 
