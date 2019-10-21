@@ -1,5 +1,5 @@
 STATUS: 
-*UNMAINTAINED* if you want to take over this historic gmod project, please open an issue. 
+*UNMAINTAINED* if you want to take over this historic gmod project, please [open an issue](https://github.com/glua/gmod-menu-plugins/issues/new). 
 
 # Menu Plugins
 
