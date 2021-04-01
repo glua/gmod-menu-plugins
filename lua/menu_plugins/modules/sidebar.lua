@@ -52,8 +52,10 @@ function PANEL:Think()
 
 	if self.hovered then
 		self:Moove(IN)
+		self:SetKeyboardInputEnabled(true)
 	elseif not self.hovered then
 		self:Moove(OUT)
+		self:SetKeyboardInputEnabled(false)
 	end
 end
 
